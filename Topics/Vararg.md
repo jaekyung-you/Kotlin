@@ -21,7 +21,7 @@ fun main(){
 fun printString(title: String, vararg strings: String): Unit{
   println(title)
   for(string in strings){
-    printnl(string)
+    println(string)
   }
 }
 
