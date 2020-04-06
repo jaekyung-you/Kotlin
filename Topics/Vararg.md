@@ -5,7 +5,7 @@
 ```kotlin
 fun printString(vararg strings: String): Unit{
   for(string in strings){
-    printnl(string)
+    println(string)
   }
 }
 
@@ -36,7 +36,7 @@ fun main(){
 ```kotlin
 fun printString(vararg strings: String): Unit{
   for(string in strings){
-    printnl(string)
+    println(string)
   }
 }
 
