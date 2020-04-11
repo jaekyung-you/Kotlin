@@ -57,4 +57,14 @@ Setting balance! // 한 번만 호출됨
 * primitive type 사용 가능
 * Non-null, Nullabble 모두 사용 가능
 
+#### 번외
+# Delegates.notNull()
+* 객체를 non-null 타입으로 만듦 -> var로 선언하였으나 ~~null 할당~~
+
+```kotlin
+var nonNullString: String by Delegates.notNull<String>()
+nonNullString = "Hello World"
+println("Non null value : $nonNullString")
+nonNullString = null // 컴파일 에러, non-null 타입에 null을 넣을 수 없
+```
 
