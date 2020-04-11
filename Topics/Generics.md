@@ -70,7 +70,7 @@ Invariance ↔ Covariance (In/Out 키워드로 변경)
 Number가 Double의 super class일 때, Rectangle < Number > 가 Rectangle< Double > 의 super class 이면,
 **Covariance**라고 한다.
 
-#### out
+#### 1. out
 out이 타입의 상속구조와 Generic의 상속구조가 같다는 것을 정의하여
 Rectangle< Double >이 Rectangle< Number >의 하위 클래스라고 인식
 
@@ -84,7 +84,7 @@ fun main(args:Array<String>){
 }
 ```
 
-#### in
+#### 2. in
 in은 타이브이 상위/하위 클래스 구조가 Generic에서는 반대 방향의 상위/하위 클래스 구조를 갖는 것
 이 때, 두 타입의 관계가 **Contravariance**(반공변성)이다.
 Rectangle< Double >이 Rectangle< Number >의 상위 클래스로 변환
