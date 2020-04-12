@@ -117,3 +117,84 @@ onComplete()
   * call() 함수의 return 값이 전달
 * **fromFuture()** : Future 객체를 Observable 형태로 변경
   * get() 함수의 return 값이 전달
+  
+### 3. just, range, empty, interval, timer
+**just** : 받은 인자를 그대로 전달(list든, map이든). 모든 item 전달이 완료되면 onComplete() 호출
+**range** : 특정 범위만큼 수를 생성하여 
+**emtpy** : 아무것도 전달하지 않고 onComplete()만 호출
+**interval** : 특정 시간 간격으로 0부터 숫자를 증가시키면서 반환
+**timer** : 주어진 시간에 한번만 값을 전달
+
+```kotlin
+fun main(args: Array<String>){
+ val list = listOf(1,2,3)
+ val num = 3
+ val str = "wow!"
+ val map = mapOf(1 to "one", 2 to "two")
+ 
+ val justOb = Observable.just(list, num, str, map)
+ 
+ val observer : Observer<Any> = object : Observer<Any>{
+  override fun onComplete() = println("onComplete()")
+  override fun onError(e: Throwable) = println("onError - ${e.message}")
+  override fun onNext(item : Int) = println("onNext - $item")
+  override fun onSubscrbie(d: Disposable) = println("onSubscribe() - $d")
+ 
+ }
+ 
+ justOb.subscribe(observer)
+ 
+ Observable.range(1,3).subscribe(observer)
+ 
+ Observable.empty().subscribe(observer)
+ 
+ Thread() {Observable.interval(100, TimeUnit.MILLISECONDS).subscribe(observer)}.start()
+ 
+ // 0.3초간 main thread를 대기시킴
+ val th1 = Thread() {Thread.sleep(300)} // main 함수이기 때문에 sleep하지 않으면 process가 죽음. observer의 수행은 background에서 하고 main thread는 0.3초 block 시킴
+ th1.start()
+ th1.join()
+ 
+ val th2 = Thread() {Thread.sleep(300)}
+ th2.start()
+ th2.join()
+}
+
+결과
+onSubscribe() - io.reactivex.internal.operators.observable.ObservableFromArray$FromArrayDisposable@15615099 
+onNext() - [1, 2, 3]
+onNext() - 3
+onNext() - wow!
+onNext() - {1=one, 2=two}
+onComplete()
+
+onSubscribe() - 0 
+onNext() - 1
+onNext() - 2
+onNext() - 3
+onComplete()
+
+onSubscribe() - INSTANCE 
+onComplete()
+
+onSubscribe() - null 
+onNext() - 0
+onNext() - 1
+
+onSubscribe() - null 
+onNext() - 0
+onComplete()
+
+```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
