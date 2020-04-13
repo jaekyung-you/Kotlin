@@ -8,9 +8,8 @@
 * Event를 전달받는 형태로 사용
 * ex. 실시간 스트리밍
 
-#### ConnectableObservable
-* Hot의 일종으로 connect를 호출하면 배출 시작
-* publish()를 통해 hot으로 변경
+### 방법1. publish()
+* Hot Observable 구현 방법 중 하나로, connect를 호출하면 배출 시작
 
 ```kotlin
 fun main(args: Array<String>){
@@ -104,4 +103,14 @@ fun main(args: Array<String>){
 3rd subscriber: 5
 
 ```
+### 방법2. subject
+* subject의 Observer 역할 : **여러 Observable에 구독을 신청** 할 수 있음
+* subject의 Observable의 역할 : **받은 item 재배출** or **새로운 값 배출**
+
+#### PublishSubject
+
+
+
+
+
 
