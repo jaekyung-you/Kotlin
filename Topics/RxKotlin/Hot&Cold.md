@@ -108,7 +108,7 @@ fun main(args: Array<String>){
 * subject의 Observable의 역할 : **받은 item 재배출** or **새로운 값 배출**
 
 #### PublishSubject
-
+* 등록 시점부터 데이터를 전달 받음
 
 
 
