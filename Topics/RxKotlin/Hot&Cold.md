@@ -103,14 +103,3 @@ fun main(args: Array<String>){
 3rd subscriber: 5
 
 ```
-### 방법2. subject
-* subject의 Observer 역할 : **여러 Observable에 구독을 신청** 할 수 있음
-* subject의 Observable의 역할 : **받은 item 재배출** or **새로운 값 배출**
-
-#### PublishSubject
-* 등록 시점부터 데이터를 전달 받음
-
-
-
-
-
