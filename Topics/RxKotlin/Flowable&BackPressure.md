@@ -316,7 +316,115 @@ class MySubscriber: Subscriber<Int>{
 ```
 
 ### BackpressureStrategy.DROP
-* 수신자가 처리 중에 생산자로부터 전달받으면 해당 데이터 버림
-* 
+* 수신자가 **처리 중에** 생산자로부터 전달받으면 해당 데이터 버림
+* 즉, 기본 버퍼에 담기지 못하는 129개 째부터 "수신중에 생산된" 데이터는 버려짐
+* 버퍼에 저장된 128개를 처리한 이후에 들어오는(새로 생산되는) 데이터가 없기 때문에 추가처리 없이 종료
+* 코드는 위와 동일하고 BackpressureStrategy.DROP으로 변경
 
+```
+결과
+send item 1
+
+send item 2
+
+...
+
+send item 195
+
+send item 196
+
+onNext(): 22 - RxComputationThreadPool-1
+
+send item 197
+
+send item 198
+
+send item 199
+
+send item 200
+
+onNext(): 23 - RxComputationThreadPool-1
+
+onNext(): 24 - RxComputationThreadPool-1
+
+...
+
+onNext(): 127 - RxComputationThreadPool-1
+
+onNext(): 128 - RxComputationThreadPool-1
+
+onComplete()
+
+```
 ### BackpressureStrategy.LATEST
+* DROP과 유사하나 수신 처리중에 받은 데이터 무시. 다만 무시할 때 마지막 배출된 값을 저장하여 최종값 유지 
+* 코드는 위와 동일하고 BackpressureStrategy.LATEST로 변경
+
+```
+결과
+send item 1
+
+send item 2
+
+...
+
+send item 199
+
+send item 200
+
+onNext(): 23 - RxComputationThreadPool-1
+
+onNext(): 24 - RxComputationThreadPool-1
+
+...
+
+onNext(): 127 - RxComputationThreadPool-1
+
+onNext(): 128 - RxComputationThreadPool-1
+
+onNext(): 200 - RxComputationThreadPool-1 // 마지막 값인 200을 전달받아 
+
+onComplete()
+
+```
+
+### BackpressureStrategy.MISSING
+* 기본적으로 Flowable에서 제공하는 backpressure를 사용하지 않겠다는 의미
+* 위에서 언급한 strategy와 동일하게 동작시키기 위해 추가적인 operator 제공 
+
+#### 1. onBackpressureBuffer()
+* BackpressureStrategy.BUFFER와 동작 동일
+* 다만, onBackpressrueBuffer()는 인자값으로 버퍼 크기를 한정할 수 있음
+
+```kotlin
+fun main(args:Array<String>) = runBlocking<Unit>{
+  val flowable = Flowable.create({
+    ...
+  }, BackpressureStrategy.MISSING)
+  
+  ...
+  
+  flowable.onBackpressureBuffer(20) // buffer 사이즈 부족하면 error 발생
+          .observeOn(Schedulers.computation())
+          .subscribe(MySubscriber(waitingJob))
+}
+
+class MySubscriber(val job : Job): Subscriber{
+  ...
+}
+```
+
+#### 2. onBackpressureDrop()
+
+#### 3. onBackpressureLatest()
+
+
+
+
+
+
+
+
+
+
+
