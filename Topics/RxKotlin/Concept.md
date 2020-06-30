@@ -120,9 +120,13 @@ onComplete()
   
 ### 3. just, range, empty, interval, timer
 **just** : 받은 인자를 그대로 전달(list든, map이든). 모든 item 전달이 완료되면 onComplete() 호출
+
 **range** : 특정 범위만큼 수를 생성하여 
+
 **emtpy** : 아무것도 전달하지 않고 onComplete()만 호출
+
 **interval** : 특정 시간 간격으로 0부터 숫자를 증가시키면서 반환
+
 **timer** : 주어진 시간에 한번만 값을 전달
 
 ```kotlin
